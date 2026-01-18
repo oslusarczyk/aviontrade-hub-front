@@ -1,25 +1,25 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ConvexHttpClient } from "convex/browser";
-import { api } from "../../../convex/_generated/api";  
+import { api } from "../../../convex/_generated/api";
 
 const convex = new ConvexHttpClient(process.env.VITE_CONVEX_URL!);
 
-export const Route = createFileRoute('/api/send-tradepile')({
+export const Route = createFileRoute('/api/log-sales')({
   server: {
     handlers: {
       POST: async ({ request }) => {
         try {
           const data = await request.json();
           const items = Array.isArray(data) ? data : data.items;
-          const result = await convex.mutation(api.tradepile.updateTradepile, { items });
-          return Response.json({ 
-            success: true, 
-            message: `Inserted ${result.inserted} items` 
+          const result = await convex.mutation(api.trades.addSales, { items });
+          return Response.json({
+            success: true,
+            message: `Logged ${result.inserted} sales`,
           });
         } catch (error) {
-          console.error('Error inserting tradepile:', error);
+          console.error('Error logging sales:', error);
           return Response.json(
-            { error: 'Failed to insert tradepile' },
+            { error: 'Failed to log sales' },
             { status: 500 }
           );
         }

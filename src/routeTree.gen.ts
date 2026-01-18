@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSendTradepileRouteImport } from './routes/api/send-tradepile'
+import { Route as ApiLogSalesRouteImport } from './routes/api/log-sales'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const ApiSendTradepileRoute = ApiSendTradepileRouteImport.update({
   path: '/api/send-tradepile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLogSalesRoute = ApiLogSalesRouteImport.update({
+  id: '/api/log-sales',
+  path: '/api/log-sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/send-tradepile'
+  fullPaths: '/' | '/api/log-sales' | '/api/send-tradepile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/send-tradepile'
-  id: '__root__' | '/' | '/api/send-tradepile'
+  to: '/' | '/api/log-sales' | '/api/send-tradepile'
+  id: '__root__' | '/' | '/api/log-sales' | '/api/send-tradepile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiLogSalesRoute: typeof ApiLogSalesRoute
   ApiSendTradepileRoute: typeof ApiSendTradepileRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSendTradepileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/log-sales': {
+      id: '/api/log-sales'
+      path: '/api/log-sales'
+      fullPath: '/api/log-sales'
+      preLoaderRoute: typeof ApiLogSalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiLogSalesRoute: ApiLogSalesRoute,
   ApiSendTradepileRoute: ApiSendTradepileRoute,
 }
 export const routeTree = rootRouteImport
