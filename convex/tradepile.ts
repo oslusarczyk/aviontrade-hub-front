@@ -11,9 +11,10 @@ export const updateTradepile = mutation({
           resourceId: v.number(),
           preferredPosition: v.string(),
           attributeArray: v.array(v.number()),
-          buyNowPrice: v.number(),
-          lastSalePrice: v.number(),
+          listPrice: v.number(),
+          buyPrice: v.number(),
           personaId: v.number(),
+          tradeStatus: v.string(),
       })
     ),
   },
@@ -37,9 +38,10 @@ export const updateTradepile = mutation({
         resourceId: item.resourceId,
         preferredPosition: item.preferredPosition,
         attributeArray: item.attributeArray,
-        buyNowPrice: item.buyNowPrice,
-        lastSalePrice: item.lastSalePrice,
+        listPrice: item.listPrice,
+        buyPrice: item.buyPrice,
         personaId: item.personaId,
+        tradeStatus: item.tradeStatus,
       });
       insertedIds.push(id);
     }
