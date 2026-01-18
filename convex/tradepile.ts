@@ -19,7 +19,6 @@ export const updateTradepile = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    const insertedIds = [];
 
     const existingItems = await ctx.db
     .query("tradepile")
@@ -31,7 +30,7 @@ export const updateTradepile = mutation({
   }
 
     for (const item of args.items) {
-      const id = await ctx.db.insert("tradepile", {
+      await ctx.db.insert("tradepile", {
         tradeId: item.tradeId,
         assetId: item.assetId,
         rating: item.rating,
@@ -43,9 +42,6 @@ export const updateTradepile = mutation({
         personaId: item.personaId,
         tradeStatus: item.tradeStatus,
       });
-      insertedIds.push(id);
     }
-
-    return { inserted: insertedIds.length };
   },
 });

@@ -15,10 +15,15 @@ export const addSales = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    const insertedIds = [];
-
     for (const item of args.items) {
-      const id = await ctx.db.insert("trades", {
+    const duplicates = await ctx.db
+        .query("trades")
+        .withIndex("by_tradeId", (q) => q.eq("tradeId", item.tradeId))
+        .first();
+
+    if (duplicates) {
+        console.log("Duplicate found, updating", item);
+      await ctx.db.patch(duplicates._id, {
         tradeId: item.tradeId,
         resourceId: item.resourceId,
         buyNowPrice: item.buyNowPrice,
@@ -26,9 +31,9 @@ export const addSales = mutation({
         profitMade: item.profitMade,
         personaId: item.personaId,
       });
-      insertedIds.push(id);
+    } else{
+        await ctx.db.insert("trades", item);
     }
-
-    return { inserted: insertedIds.length };
-  },
+  }
+}
 });

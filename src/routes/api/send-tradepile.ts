@@ -11,10 +11,9 @@ export const Route = createFileRoute('/api/send-tradepile')({
         try {
           const data = await request.json();
           const items = Array.isArray(data) ? data : data.items;
-          const result = await convex.mutation(api.tradepile.updateTradepile, { items });
+          await convex.mutation(api.tradepile.updateTradepile, { items });
           return Response.json({ 
             success: true, 
-            message: `Inserted ${result.inserted} items` 
           });
         } catch (error) {
           console.error('Error inserting tradepile:', error);

@@ -11,10 +11,9 @@ export const Route = createFileRoute('/api/log-sales')({
         try {
           const data = await request.json();
           const items = Array.isArray(data) ? data : data.items;
-          const result = await convex.mutation(api.trades.addSales, { items });
+          await convex.mutation(api.trades.addSales, { items });
           return Response.json({
             success: true,
-            message: `Logged ${result.inserted} sales`,
           });
         } catch (error) {
           console.error('Error logging sales:', error);

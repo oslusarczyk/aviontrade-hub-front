@@ -8,13 +8,11 @@ export default defineSchema({
     rating: v.number(),
     resourceId: v.number(),
     preferredPosition: v.string(),
-    buyNowPrice: v.optional(v.number()),
-    lastSalePrice: v.optional(v.number()),
     attributeArray: v.array(v.number()),
-    listPrice: v.optional(v.number()),
-    buyPrice: v.optional(v.number()),
+    listPrice: v.number(),
+    buyPrice: v.number(),
     personaId: v.number(),
-    tradeStatus: v.optional(v.string()),
+    tradeStatus: v.string(),
   }).index("by_tradeId", ["tradeId"]),
 
   trades: defineTable({
