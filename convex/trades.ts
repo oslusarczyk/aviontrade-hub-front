@@ -22,7 +22,6 @@ export const addSales = mutation({
         .first();
 
     if (duplicates) {
-        console.log("Duplicate found, updating", item);
       await ctx.db.patch(duplicates._id, {
         tradeId: item.tradeId,
         resourceId: item.resourceId,

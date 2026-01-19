@@ -18,6 +18,7 @@ function Home() {
       <SignedOut>
         <p>You are signed out</p>
         <SignInButton />
+        <p>dasdsa</p>
       </SignedOut>
       <SignOutButton />
       <div>
