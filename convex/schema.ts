@@ -23,4 +23,19 @@ export default defineSchema({
     profitMade: v.number(),
     personaId: v.number(),
   }).index("by_tradeId", ["tradeId"]),
+
+  players: defineTable({
+    name: v.string(),
+    fullName: v.string(),
+    club: v.string(),
+    nation: v.string(),
+    league: v.string(),
+    playerId: v.number(),
+    itemId: v.number(),
+    overall: v.number(),
+    cardType: v.string(),
+    cardLink: v.string(),
+  })
+    .index("by_playerId", ["playerId"])
+    .index("by_itemId", ["itemId"]),
 });
