@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSendTradepileRouteImport } from './routes/api/send-tradepile'
 import { Route as ApiLogSalesRouteImport } from './routes/api/log-sales'
 
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +37,47 @@ const ApiLogSalesRoute = ApiLogSalesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/log-sales' | '/api/send-tradepile'
+  fullPaths: '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/log-sales' | '/api/send-tradepile'
-  id: '__root__' | '/' | '/api/log-sales' | '/api/send-tradepile'
+  to: '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
+  id: '__root__' | '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
   ApiLogSalesRoute: typeof ApiLogSalesRoute
   ApiSendTradepileRoute: typeof ApiSendTradepileRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
   ApiLogSalesRoute: ApiLogSalesRoute,
   ApiSendTradepileRoute: ApiSendTradepileRoute,
 }

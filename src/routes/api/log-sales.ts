@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../../convex/_generated/api";
-import { requireAuth } from '@/lib/auth';
+import { requireAuth } from '@/lib/api-auth';
 
 const convex = new ConvexHttpClient(process.env.VITE_CONVEX_URL!);
 

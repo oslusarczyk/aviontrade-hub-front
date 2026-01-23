@@ -10,10 +10,6 @@ export async function requireAuth(): Promise<AuthState> {
   console.log(userId, sessionId)
   if (!userId) {
     throw new Error("Unauthorized")
-    // throw new Error(JSON.stringify({ error: 'Unauthorized' }), {
-    //   status: 402,
-    //   headers: { 'Content-Type': 'application/json' },
-    // })
   }
   
   return { userId: userId, sessionId: sessionId }

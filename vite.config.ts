@@ -12,6 +12,7 @@ const config = defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'use-sync-external-store/shim/index.js': 'react',
     },
   },
   plugins: [
@@ -25,6 +26,7 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
+  
 })
 
 export default config
