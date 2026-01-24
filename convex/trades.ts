@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const addSales = mutation({
@@ -35,4 +35,13 @@ export const addSales = mutation({
     }
   }
 }
+});
+
+export const showSales = query({
+  args: {
+    personaId: v.number(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.query("trades").withIndex("by_personaId", (q) => q.eq("personaId", args.personaId)).collect();
+  },
 });

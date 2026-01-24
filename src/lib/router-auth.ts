@@ -1,11 +1,11 @@
 import { auth } from '@clerk/tanstack-react-start/server'
 import { redirect } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
 
-export async function checkAuth() {
-  const {isAuthenticated } = await auth()
+export const checkAuth = createServerFn({ method: 'GET' }).handler(async () => {
+  const { isAuthenticated } = await auth()
+
   if (isAuthenticated) {
-    throw redirect({
-        to: "/dashboard"
-    })
+    throw redirect({ to: "/dashboard" })
   }
-}
+})

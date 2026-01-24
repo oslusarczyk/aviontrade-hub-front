@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardTradepileRouteImport } from './routes/dashboard/tradepile'
 import { Route as ApiSendTradepileRouteImport } from './routes/api/send-tradepile'
 import { Route as ApiLogSalesRouteImport } from './routes/api/log-sales'
 
@@ -23,6 +25,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardTradepileRoute = DashboardTradepileRouteImport.update({
+  id: '/tradepile',
+  path: '/tradepile',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const ApiSendTradepileRoute = ApiSendTradepileRouteImport.update({
   id: '/api/send-tradepile',
@@ -37,34 +49,57 @@ const ApiLogSalesRoute = ApiLogSalesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
+  '/dashboard/tradepile': typeof DashboardTradepileRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
+  '/dashboard/tradepile': typeof DashboardTradepileRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
+  '/dashboard/tradepile': typeof DashboardTradepileRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/api/log-sales'
+    | '/api/send-tradepile'
+    | '/dashboard/tradepile'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
-  id: '__root__' | '/' | '/dashboard' | '/api/log-sales' | '/api/send-tradepile'
+  to:
+    | '/'
+    | '/api/log-sales'
+    | '/api/send-tradepile'
+    | '/dashboard/tradepile'
+    | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/api/log-sales'
+    | '/api/send-tradepile'
+    | '/dashboard/tradepile'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ApiLogSalesRoute: typeof ApiLogSalesRoute
   ApiSendTradepileRoute: typeof ApiSendTradepileRoute
 }
@@ -85,6 +120,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/tradepile': {
+      id: '/dashboard/tradepile'
+      path: '/tradepile'
+      fullPath: '/dashboard/tradepile'
+      preLoaderRoute: typeof DashboardTradepileRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/api/send-tradepile': {
       id: '/api/send-tradepile'
       path: '/api/send-tradepile'
@@ -102,9 +151,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardTradepileRoute: typeof DashboardTradepileRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardTradepileRoute: DashboardTradepileRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ApiLogSalesRoute: ApiLogSalesRoute,
   ApiSendTradepileRoute: ApiSendTradepileRoute,
 }

@@ -22,7 +22,9 @@ export default defineSchema({
     lastSalePrice: v.number(),
     profitMade: v.number(),
     personaId: v.number(),
-  }).index("by_tradeId", ["tradeId"]),
+  }).index("by_tradeId", ["tradeId"])
+  .index("by_personaId", ["personaId"]),
+
 
     players: defineTable({
     name: v.string(),

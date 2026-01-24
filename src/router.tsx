@@ -6,18 +6,6 @@ import { routerWithQueryClient } from "@tanstack/react-router-with-query";
 
 import { routeTree } from './routeTree.gen'
 
-// // Create a new router instance
-// export const getRouter = () => {
-//   const router = createRouter({
-//     routeTree,
-//     context: {},
-
-//     scrollRestoration: true,
-//     defaultPreloadStaleTime: 0,
-//   })
-
-//   return router
-// }
 
 export function getRouter() {
   const CONVEX_URL = (import.meta as any).env.VITE_CONVEX_URL!;

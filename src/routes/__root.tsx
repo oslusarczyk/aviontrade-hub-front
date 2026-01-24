@@ -8,8 +8,8 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRouteWithContext<{
-    queryClient: QueryClient,
-  }>()({
+  queryClient: QueryClient,
+}>()({
   head: () => ({
     meta: [
       {
@@ -22,11 +22,16 @@ export const Route = createRootRouteWithContext<{
       {
         title: 'AvionTrade Hub',
       },
+
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'icon',
+        href: '/favicon.ico',
       },
     ],
   }),
@@ -37,7 +42,12 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <div className="bg-neutral-900 text-white">
+        <div className="fixed inset-0 
+        bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] 
+        bg-[size:24px_24px] pointer-events-none opacity-15" />
+        <Outlet />
+      </div>
     </RootDocument>
   );
 }
