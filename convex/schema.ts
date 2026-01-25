@@ -23,10 +23,10 @@ export default defineSchema({
     profitMade: v.number(),
     personaId: v.number(),
   }).index("by_tradeId", ["tradeId"])
-  .index("by_personaId", ["personaId"]),
+    .index("by_personaId", ["personaId"]),
 
 
-    players: defineTable({
+  players: defineTable({
     name: v.string(),
     fullName: v.string(),
     club: v.string(),
@@ -37,14 +37,20 @@ export default defineSchema({
     overall: v.number(),
     cardType: v.string(),
     cardLink: v.string(),
-        // Face stats
-        PAC: v.number(),
-        SHO: v.number(),
-        PAS: v.number(),
-        DRI: v.number(),
-        DEF: v.number(),
-        PHY: v.number(),
+    PAC: v.number(),
+    SHO: v.number(),
+    PAS: v.number(),
+    DRI: v.number(),
+    DEF: v.number(),
+    PHY: v.number(),
   })
     .index("by_playerId", ["playerId"])
     .index("by_itemId", ["itemId"]),
+
+  clubs: defineTable({
+    personaId: v.number(),
+    clubName: v.string(),
+    userId: v.string(),
+  })
+    .index("by_userId", ["userId"]),
 });

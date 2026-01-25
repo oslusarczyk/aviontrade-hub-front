@@ -15,6 +15,7 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardTradepileRouteImport } from './routes/dashboard/tradepile'
 import { Route as ApiSendTradepileRouteImport } from './routes/api/send-tradepile'
 import { Route as ApiLogSalesRouteImport } from './routes/api/log-sales'
+import { Route as ApiAddClubRouteImport } from './routes/api/add-club'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -46,10 +47,16 @@ const ApiLogSalesRoute = ApiLogSalesRouteImport.update({
   path: '/api/log-sales',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAddClubRoute = ApiAddClubRouteImport.update({
+  id: '/api/add-club',
+  path: '/api/add-club',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/api/add-club': typeof ApiAddClubRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
   '/dashboard/tradepile': typeof DashboardTradepileRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/add-club': typeof ApiAddClubRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
   '/dashboard/tradepile': typeof DashboardTradepileRoute
@@ -66,6 +74,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
+  '/api/add-club': typeof ApiAddClubRoute
   '/api/log-sales': typeof ApiLogSalesRoute
   '/api/send-tradepile': typeof ApiSendTradepileRoute
   '/dashboard/tradepile': typeof DashboardTradepileRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/api/add-club'
     | '/api/log-sales'
     | '/api/send-tradepile'
     | '/dashboard/tradepile'
@@ -83,6 +93,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/add-club'
     | '/api/log-sales'
     | '/api/send-tradepile'
     | '/dashboard/tradepile'
@@ -91,6 +102,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/api/add-club'
     | '/api/log-sales'
     | '/api/send-tradepile'
     | '/dashboard/tradepile'
@@ -100,6 +112,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  ApiAddClubRoute: typeof ApiAddClubRoute
   ApiLogSalesRoute: typeof ApiLogSalesRoute
   ApiSendTradepileRoute: typeof ApiSendTradepileRoute
 }
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiLogSalesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/add-club': {
+      id: '/api/add-club'
+      path: '/api/add-club'
+      fullPath: '/api/add-club'
+      preLoaderRoute: typeof ApiAddClubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -168,6 +188,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  ApiAddClubRoute: ApiAddClubRoute,
   ApiLogSalesRoute: ApiLogSalesRoute,
   ApiSendTradepileRoute: ApiSendTradepileRoute,
 }

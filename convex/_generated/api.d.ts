@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as clubs from "../clubs.js";
 import type * as tradepile from "../tradepile.js";
 import type * as trades from "../trades.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  clubs: typeof clubs;
   tradepile: typeof tradepile;
   trades: typeof trades;
 }>;
