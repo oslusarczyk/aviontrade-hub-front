@@ -11,6 +11,6 @@ export async function requireAuth(): Promise<AuthState> {
   if (!userId) {
     throw new Error("Unauthorized")
   }
-  
+
   return { userId: userId, sessionId: sessionId }
 }

@@ -17,14 +17,15 @@ export const addClub = mutation({
     },
 });
 
-export const getClubs = query({
+export const getUserClubs = query({
     args: {
         userId: v.string(),
     },
     handler: async (ctx, args) => {
-        return await ctx.db
+        const clubs = await ctx.db
             .query("clubs")
             .withIndex("by_userId", (q) => q.eq("userId", args.userId))
             .collect();
+        return clubs;
     },
 });

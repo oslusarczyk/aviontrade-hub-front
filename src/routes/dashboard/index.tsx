@@ -1,32 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from 'convex/react'
-import { api } from 'convex/_generated/api'
+import { getUserId } from '@/lib/get-user'
+import { ClubSelector } from '@/components/ClubSelector'
+import { useSelectedPersona } from '@/hooks/use-selected-persona'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardIndex,
+  beforeLoad: async () => {
+    const userId = await getUserId()
+    return {
+      userId: userId,
+    }
+  },
 })
 
 function DashboardIndex() {
-  const personaId = 1969820033
-
-  const sales = useQuery(api.trades.showSales, { personaId })
+  const { userId } = Route.useRouteContext()
+  const { isLoading, selectedClub } = useSelectedPersona(userId)
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      {sales === undefined ? (
-        <p>Loading sales...</p>
-      ) : sales && sales.length > 0 ? (
-        <div className="space-y-4">
-          {sales.map((sale) => (
-            <div key={sale._id} className="p-4 bg-neutral-800/50 rounded-lg border border-neutral-700/50">
-              <p className="text-emerald-400 font-semibold">Profit Made: {sale.profitMade}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>No sales found</p>
-      )}
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        {!isLoading && <ClubSelector userId={userId} />}
+      </div>
+      {/* Dashboard content will go here */}
+      {selectedClub && <p>{selectedClub.clubName}</p>}
     </div>
   )
 }
