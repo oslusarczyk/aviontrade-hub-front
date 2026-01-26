@@ -8,6 +8,15 @@ export const addClub = mutation({
         userId: v.string(),
     },
     handler: async (ctx, args) => {
+        const existingClub = await ctx.db
+            .query("clubs")
+            .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+            .filter((q) => q.eq(q.field("personaId"), args.personaId))
+            .first();
+
+        if (existingClub) {
+            throw new Error("Club with this persona already exists for this user");
+        }
 
         return await ctx.db.insert("clubs", {
             userId: args.userId,
