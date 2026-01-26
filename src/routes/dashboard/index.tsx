@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { getUserId } from '@/lib/get-user'
+import { getUserId } from '@/server/get-user'
 import { ClubSelector } from '@/components/ClubSelector'
 import { useSelectedPersona } from '@/hooks/use-selected-persona'
+import { TotalSalesCard } from '@/components/dashboard/TotalSalesCard'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardIndex,
@@ -15,7 +16,7 @@ export const Route = createFileRoute('/dashboard/')({
 
 function DashboardIndex() {
   const { userId } = Route.useRouteContext()
-  const { isLoading, selectedClub } = useSelectedPersona(userId)
+  const { isLoading, personaId } = useSelectedPersona(userId)
 
   return (
     <div className="space-y-6">
@@ -23,8 +24,11 @@ function DashboardIndex() {
         <h1 className="text-3xl font-bold">Dashboard</h1>
         {!isLoading && <ClubSelector userId={userId} />}
       </div>
-      {/* Dashboard content will go here */}
-      {selectedClub && <p>{selectedClub.clubName}</p>}
+
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {personaId && <TotalSalesCard personaId={personaId} />}
+      </div>
     </div>
   )
 }

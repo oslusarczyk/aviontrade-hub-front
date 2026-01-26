@@ -12,7 +12,6 @@ export const Route = createFileRoute('/api/add-club')({
         try {
           const { userId } = await requireAuth()
           const data = await request.json();
-          console.log(data);
           const { clubData: personaId, clubName } = data;
           await convex.mutation(api.clubs.addClub, {
             userId,

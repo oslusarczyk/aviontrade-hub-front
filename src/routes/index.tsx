@@ -1,4 +1,4 @@
-import { checkAuth } from '@/lib/router-auth'
+import { checkAuth } from '@/server/router-auth'
 import { SignInButton } from "@clerk/tanstack-react-start";
 import { createFileRoute } from "@tanstack/react-router";
 import logo from "@/assets/logo.png";

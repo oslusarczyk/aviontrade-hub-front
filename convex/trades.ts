@@ -40,8 +40,18 @@ export const addSales = mutation({
 export const showSales = query({
   args: {
     personaId: v.number(),
+    period: v.number(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db.query("trades").withIndex("by_personaId", (q) => q.eq("personaId", args.personaId)).collect();
+    const cutoffTime = Date.now() - args.period * 24 * 60 * 60 * 1000;
+    const trades = await ctx.db.query("trades")
+    .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
+    .filter((q) => q.gt(q.field("_creationTime"), cutoffTime))
+    .collect();
+    const amountSold = trades.length;
+    const totalSales = trades.reduce((acc, trade) => acc + trade.profitMade, 0);
+    return { amountSold, totalSales };
+
+
   },
 });
