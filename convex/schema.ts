@@ -37,6 +37,7 @@ export default defineSchema({
     overall: v.number(),
     cardType: v.string(),
     cardLink: v.string(),
+    position: v.optional(v.string()),
     PAC: v.number(),
     SHO: v.number(),
     PAS: v.number(),

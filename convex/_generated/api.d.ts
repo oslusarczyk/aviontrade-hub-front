@@ -9,6 +9,7 @@
  */
 
 import type * as clubs from "../clubs.js";
+import type * as players from "../players.js";
 import type * as tradepile from "../tradepile.js";
 import type * as trades from "../trades.js";
 
@@ -20,6 +21,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   clubs: typeof clubs;
+  players: typeof players;
   tradepile: typeof tradepile;
   trades: typeof trades;
 }>;

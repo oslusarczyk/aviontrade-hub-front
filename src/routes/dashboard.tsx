@@ -12,9 +12,8 @@ function DashboardLayout() {
       <div className="flex h-screen bg-neutral-900 text-white">
         <DashboardSidebar />
 
-        {/* Main Content Area */}
-        <main className="flex-1 ml-64 overflow-y-auto">
-          <div className="p-8">
+        <main className="flex-1 ml-64 overflow-hidden flex flex-col">
+          <div className="p-8 flex-1 flex flex-col min-h-0">
             <Outlet />
           </div>
         </main>

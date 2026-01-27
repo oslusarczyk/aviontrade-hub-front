@@ -7,8 +7,9 @@ import { TrendingUp, Package, DollarSign, Award } from 'lucide-react'
 import { StatRow } from './StatRow'
 import { CardHeader } from './CardHeader'
 import { useLocalStorage } from '@/hooks/use-local-storage'
+import { DashboardCard } from './DashboardCard'
 
-export function TotalSalesCard() {
+export function TotalSalesCard({ className }: { className?: string }) {
     const [selectedPeriod, setSelectedPeriod] = useLocalStorage<number>('selectedPeriod', 7)
     const { selectedPersonaId } = usePersona()
 
@@ -27,10 +28,7 @@ export function TotalSalesCard() {
     const { amountSold = 0, totalSales = 0, profitAverage = 0, biggestSingleProfit = 0 } = salesData ?? {}
 
     return (
-        <div className="relative bg-linear-to-br from-neutral-800 to-neutral-800/90 border 
-        border-emerald-500/30 rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -mr-16 -mt-16" />
-
+        <DashboardCard className={className}>
             <div className="absolute top-2 right-2 flex gap-2 z-10">
                 {[1, 7, 30, 365].map((days) => (
                     <button
@@ -63,24 +61,24 @@ export function TotalSalesCard() {
                 <div className="space-y-3 pt-4 border-t border-neutral-700/50">
                     <StatRow
                         icon={Package}
-                        label="Items Sold"
+                        label="Cards sold in period"
                         value={formatNumber(amountSold)}
                     />
 
                     <StatRow
                         icon={DollarSign}
-                        label="Avg Profit"
+                        label="Average profit per card"
                         value={formatNumber(profitAverage)}
                     />
 
                     <StatRow
                         icon={Award}
-                        label="Best Single"
+                        label="Best single profit"
                         value={formatNumber(biggestSingleProfit)}
                         valueClassName="text-sm font-semibold text-emerald-400"
                     />
                 </div>
             </div>
-        </div>
+        </DashboardCard>
     )
 }
