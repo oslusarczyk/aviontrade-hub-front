@@ -1,4 +1,5 @@
 import { formatNumber, formatProfit } from '@/lib/utils'
+import { StatRow } from './StatRow'
 
 interface SaleItemProps {
     sale: {
@@ -42,20 +43,25 @@ export function SaleItem({ sale }: SaleItemProps) {
             </div>
 
             <div className="space-y-1.5 pt-2 border-t border-neutral-700/50">
-                <div className="flex items-center justify-between text-xs">
-                    <span className="text-neutral-400">Card bought for</span>
-                    <span className="text-neutral-300 font-medium">{formatNumber(sellPrice)}</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                    <span className="text-neutral-400">Card sold for</span>
-                    <span className="text-neutral-300 font-medium">{formatNumber(price)}</span>
-                </div>
-                <div className={`flex items-center justify-between text-xs font-semibold mt-2 pt-2 border-t border-neutral-700/30 ${profitColor}`}>
-                    <span>Profit</span>
-                    <span className={profitColor}>
-                        {formatProfit(profit)}
-                    </span>
-                </div>
+                <StatRow
+                    label="Card bought for"
+                    salesProp
+                    value={formatNumber(sellPrice)}
+                />
+                <StatRow
+                    label="Card sold for"
+                    salesProp
+                    value={formatNumber(price)}
+                />
+                <StatRow
+                    label="Profit"
+                    salesProp
+                    value={formatProfit(profit)}
+                    valueClassName={`text-xs font-semibold ${profitColor}`}
+                    iconClassName={profitColor}
+                    labelClassName="text-xs font-medium text-neutral-300"
+                    containerClassName="mt-2 pt-2 border-t border-neutral-700/30"
+                />
             </div>
         </div>
     )
