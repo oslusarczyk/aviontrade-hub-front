@@ -3,6 +3,7 @@ import { getUserId } from '@/server/get-user'
 import { ClubSelector } from '@/components/ClubSelector'
 import { useSelectedPersona } from '@/hooks/use-selected-persona'
 import { TotalSalesCard } from '@/components/dashboard/TotalSalesCard'
+import { TradepileInfoCard } from '@/components/dashboard/TradepileInfoCard'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardIndex,
@@ -27,7 +28,12 @@ function DashboardIndex() {
 
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {personaId && <TotalSalesCard personaId={personaId} />}
+        {personaId && (
+          <>
+            <TotalSalesCard />
+            <TradepileInfoCard />
+          </>
+        )}
       </div>
     </div>
   )

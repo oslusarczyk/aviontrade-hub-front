@@ -3,34 +3,38 @@ import { useQuery } from '@tanstack/react-query'
 import { api } from 'convex/_generated/api'
 import { formatNumber } from '@/lib/utils'
 import { convexQuery } from '@convex-dev/react-query'
+import { usePersona } from '@/contexts/persona-context'
+import { TrendingUp, Package, DollarSign, Award } from 'lucide-react'
+import { StatRow } from './StatRow'
+import { CardHeader } from './CardHeader'
 
-interface TotalSalesCardProps {
-    personaId: number
-}
-
-export function TotalSalesCard({ personaId }: TotalSalesCardProps) {
+export function TotalSalesCard() {
     const [selectedPeriod, setSelectedPeriod] = useState<number>(7)
+    const { selectedPersonaId } = usePersona()
 
     const { data: salesData } = useQuery({
         ...convexQuery(api.trades.showSales, {
-            personaId,
+            personaId: selectedPersonaId ?? 0,
             period: selectedPeriod,
         }),
         placeholderData: (previousData) => previousData,
     })
 
-    const { amountSold = 0, totalSales = 0 } = salesData ?? {}
+    const { amountSold = 0, totalSales = 0, profitAverage = 0, biggestSingleProfit = 0 } = salesData ?? {}
 
     return (
-        <div className="relative bg-neutral-800 border border-emerald-500/30 rounded-xl p-4">
-            <div className="absolute top-2 right-2 flex gap-1.5">
+        <div className="relative bg-linear-to-br from-neutral-800 to-neutral-800/90 border 
+        border-emerald-500/30 rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -mr-16 -mt-16" />
+
+            <div className="absolute top-2 right-2 flex gap-1.5 z-10">
                 {[1, 7, 30, 365].map((days) => (
                     <button
                         key={days}
                         onClick={() => setSelectedPeriod(days)}
-                        className={`px-2 py-1 rounded text-xs font-medium transition-colors ${selectedPeriod === days
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                            : 'bg-neutral-700/50 hover:bg-neutral-700 text-neutral-300 border border-transparent'
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-200 ${selectedPeriod === days
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/20'
+                            : 'bg-neutral-700/40 hover:bg-neutral-700/60 text-neutral-300 border border-neutral-600/30 hover:border-neutral-600/50'
                             }`}
                     >
                         {days}d
@@ -38,14 +42,40 @@ export function TotalSalesCard({ personaId }: TotalSalesCardProps) {
                 ))}
             </div>
 
-            <div className="pr-28">
-                <p className="text-neutral-400 text-xs mb-1">Total Sales</p>
-                <p className="text-emerald-400 text-2xl font-bold mb-0.5">
-                    {formatNumber(totalSales)}
-                </p>
-                <p className="text-neutral-500 text-xs">
-                    {formatNumber(amountSold)} items
-                </p>
+            <div className="relative z-10">
+                <CardHeader
+                    icon={TrendingUp}
+                    title="Total Sales"
+                />
+
+
+                <div className="mb-6">
+                    <p className="text-3xl font-bold text-emerald-400 mb-1">
+                        {formatNumber(totalSales)}
+                    </p>
+                    <p className="text-xs text-neutral-400">Total profit</p>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t border-neutral-700/50">
+                    <StatRow
+                        icon={Package}
+                        label="Items Sold"
+                        value={formatNumber(amountSold)}
+                    />
+
+                    <StatRow
+                        icon={DollarSign}
+                        label="Avg Profit"
+                        value={formatNumber(profitAverage)}
+                    />
+
+                    <StatRow
+                        icon={Award}
+                        label="Best Single"
+                        value={formatNumber(biggestSingleProfit)}
+                        valueClassName="text-sm font-semibold text-emerald-400"
+                    />
+                </div>
             </div>
         </div>
     )
