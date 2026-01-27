@@ -56,7 +56,7 @@ export const getTradepile = query({
     tradepile = tradepile.filter(t => t.tradeStatus !== "closed");
     const tradepileSum = tradepile.reduce((acc, t) => acc + t.buyPrice, 0);
     const tradepileBuy = tradepile.reduce((acc, t) => acc + t.listPrice, 0);
-    const tradepileProfit = Math.round(tradepileSum * 0.95) - tradepileBuy;
+    const tradepileProfit = Math.round(tradepileSum * 0.95 - tradepileBuy);
     const tradepileCount = tradepile.length;
     const lastUpdated = tradepile[0]._creationTime;
     return { tradepileCount, tradepileItemsSold, tradepileSum, tradepileBuy, tradepileProfit, lastUpdated };

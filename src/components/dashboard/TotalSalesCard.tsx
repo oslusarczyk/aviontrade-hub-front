@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { api } from 'convex/_generated/api'
 import { formatNumber } from '@/lib/utils'
@@ -7,9 +6,10 @@ import { usePersona } from '@/contexts/persona-context'
 import { TrendingUp, Package, DollarSign, Award } from 'lucide-react'
 import { StatRow } from './StatRow'
 import { CardHeader } from './CardHeader'
+import { useLocalStorage } from '@/hooks/use-local-storage'
 
 export function TotalSalesCard() {
-    const [selectedPeriod, setSelectedPeriod] = useState<number>(7)
+    const [selectedPeriod, setSelectedPeriod] = useLocalStorage<number>('selectedPeriod', 7)
     const { selectedPersonaId } = usePersona()
 
     const { data: salesData } = useQuery({
@@ -20,6 +20,10 @@ export function TotalSalesCard() {
         placeholderData: (previousData) => previousData,
     })
 
+    const handlePeriodChange = (days: number) => {
+        setSelectedPeriod(days)
+    }
+
     const { amountSold = 0, totalSales = 0, profitAverage = 0, biggestSingleProfit = 0 } = salesData ?? {}
 
     return (
@@ -27,12 +31,12 @@ export function TotalSalesCard() {
         border-emerald-500/30 rounded-xl p-6 shadow-lg hover:border-emerald-500/50 transition-all duration-300 overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl -mr-16 -mt-16" />
 
-            <div className="absolute top-2 right-2 flex gap-1.5 z-10">
+            <div className="absolute top-2 right-2 flex gap-2 z-10">
                 {[1, 7, 30, 365].map((days) => (
                     <button
                         key={days}
-                        onClick={() => setSelectedPeriod(days)}
-                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-200 ${selectedPeriod === days
+                        onClick={() => handlePeriodChange(days)}
+                        className={`flex items-center justify-center min-w-10 h-8 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 cursor-pointer ${selectedPeriod === days
                             ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/20'
                             : 'bg-neutral-700/40 hover:bg-neutral-700/60 text-neutral-300 border border-neutral-600/30 hover:border-neutral-600/50'
                             }`}

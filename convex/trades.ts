@@ -50,7 +50,7 @@ export const showSales = query({
       .collect();
     const amountSold = trades.length;
     const totalSales = trades.reduce((acc, trade) => acc + trade.profitMade, 0);
-    const profitAverage = totalSales / amountSold;
+    const profitAverage = Math.round(totalSales / amountSold);
     const biggestSingleProfit = Math.max(...trades.map(trade => trade.profitMade));
     return { amountSold, totalSales, profitAverage, biggestSingleProfit };
 
