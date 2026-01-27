@@ -26,6 +26,7 @@
     "convex": "^1.31.5",
     "lucide-react": "^0.561.0",
     "node": "^25.4.0",
+    "npx": "^10.2.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.0.6",
