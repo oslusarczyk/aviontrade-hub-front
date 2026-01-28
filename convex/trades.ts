@@ -22,19 +22,12 @@ export const addSales = mutation({
         .first();
 
       if (duplicates) {
-        await ctx.db.patch(duplicates._id, {
-          tradeId: item.tradeId,
-          resourceId: item.resourceId,
-          buyNowPrice: item.buyNowPrice,
-          lastSalePrice: item.lastSalePrice,
-          profitMade: item.profitMade,
-          personaId: item.personaId,
-        });
-      } else {
-        await ctx.db.insert("trades", item);
+        await ctx.db.delete(duplicates._id);
       }
+      await ctx.db.insert("trades", item);
     }
   }
+
 });
 
 export const showSales = query({
@@ -64,9 +57,7 @@ export const showLastSales = query({
     let trade = await ctx.db.query("trades")
       .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
       .order("desc")
-      .first();
-    // console.log(trade[0]._creationTime, trade[1]._creationTime, trade[2]._creationTime, trade[3]._creationTime);
-    const creationTime = trade?._creationTime ?? 0;
+      .first(); const creationTime = trade?._creationTime ?? 0;
     const trades = await ctx.db.query("trades")
       .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
       .filter((q) => q.gt(q.field("_creationTime"), creationTime - 1000))
@@ -76,7 +67,7 @@ export const showLastSales = query({
     const lastSales = (await Promise.all(
       trades.map(async (trade) => {
         const player = await ctx.db.query("players")
-          .filter((q) => q.eq(q.field("itemId"), trade.resourceId))
+          .withIndex("by_itemId", (q) => q.eq("itemId", trade.resourceId))
           .first();
         if (!player) {
           return null;
