@@ -21,6 +21,7 @@ type LastSale = {
 type LastSalesData = {
     creationTime: number;
     lastSales: LastSale[];
+    amountOfSales: number;
 };
 
 export function LastSalesCard({ className }: { className?: string }) {
@@ -52,7 +53,7 @@ export function LastSalesCard({ className }: { className?: string }) {
             <CardHeader
                 icon={ShoppingBag}
                 title="Last Sales"
-                description={`Sales last updated at ${new Date(creationTime).toLocaleString()}`}
+                description={`Sales of ${lastSales.length} cards. Last updated at ${new Date(creationTime).toLocaleString()}`}
             />
             <div className="flex flex-col gap-2 mt-4 flex-1 min-h-0 overflow-y-auto pr-2 pb-1 custom-scrollbar"
                 style={{

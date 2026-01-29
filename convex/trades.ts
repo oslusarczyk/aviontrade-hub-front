@@ -36,7 +36,9 @@ export const showSales = query({
     period: v.number(),
   },
   handler: async (ctx, args) => {
-    const cutoffTime = Date.now() - args.period * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    const startOfDay = new Date(now).setHours(0, 0, 0, 0);
+    const cutoffTime = startOfDay - (args.period - 1) * 24 * 60 * 60 * 1000;
     const trades = await ctx.db.query("trades")
       .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
       .filter((q) => q.gt(q.field("_creationTime"), cutoffTime))
@@ -64,6 +66,8 @@ export const showLastSales = query({
       .filter((q) => q.gt(q.field("_creationTime"), creationTime - 1000))
       .filter((q) => q.lt(q.field("_creationTime"), creationTime + 1000))
       .collect();
+
+    trades.sort((a, b) => b.lastSalePrice - a.lastSalePrice);
 
     const lastSales = (await Promise.all(
       trades.map(async (trade) => {
