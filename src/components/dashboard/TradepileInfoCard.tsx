@@ -1,6 +1,7 @@
 import { usePersona } from '@/contexts/persona-context'
 import { api } from 'convex/_generated/api'
-import { useQuery } from 'convex/react'
+import { useQuery } from '@tanstack/react-query'
+import { convexQuery } from '@convex-dev/react-query'
 import { formatNumber, formatProfit } from '@/lib/utils'
 import { ShoppingBag, CheckCircle2, Coins, TrendingUp, Clock } from 'lucide-react'
 import { StatRow } from './StatRow'
@@ -8,12 +9,22 @@ import { TradepileCountBox } from './TradepileCountBox'
 import { CardHeader } from './CardHeader'
 import { DashboardCard } from './DashboardCard'
 
+type TradepileData = {
+    tradepileCount: number
+    tradepileItemsSold: number
+    tradepileSum: number
+    tradepileBuy: number
+    tradepileProfit: number
+    lastUpdated: number
+}
+
 export function TradepileInfoCard({ className }: { className?: string }) {
     const { selectedPersonaId: personaId } = usePersona()
-    const tradepileData = useQuery(
-        api.tradepile.getTradepile,
-        personaId ? { personaId } : "skip"
-    )
+
+    const { data: tradepileData } = useQuery({
+        ...convexQuery(api.tradepile.getTradepile, personaId ? { personaId } : "skip"),
+        placeholderData: (previousData: TradepileData | undefined) => previousData,
+    })
 
     if (!tradepileData) {
         return (

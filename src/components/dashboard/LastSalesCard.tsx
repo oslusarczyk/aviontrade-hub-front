@@ -1,15 +1,34 @@
 import { CardHeader } from "./CardHeader";
 import { ShoppingBag } from "lucide-react";
-import { useQuery } from 'convex/react'
+import { useQuery } from '@tanstack/react-query'
+import { convexQuery } from "@convex-dev/react-query";
 import { api } from "convex/_generated/api";
 import { usePersona } from "@/contexts/persona-context";
 import { SaleItem } from "./SaleItem";
 import { DashboardCard } from "./DashboardCard";
 
+type LastSale = {
+    tradeId: number;
+    player: string;
+    overall: number;
+    cardType: string;
+    position: string;
+    price: number;
+    sellPrice: number;
+    profit: number;
+};
+
+type LastSalesData = {
+    creationTime: number;
+    lastSales: LastSale[];
+};
+
 export function LastSalesCard({ className }: { className?: string }) {
     const { selectedPersonaId: personaId } = usePersona();
-    console.log(personaId);
-    const result = useQuery(api.trades.showLastSales, personaId ? { personaId } : "skip");
+    const { data: result } = useQuery({
+        ...convexQuery(api.trades.showLastSales, personaId ? { personaId } : "skip"),
+        placeholderData: (previousData: LastSalesData | undefined) => previousData,
+    });
 
     if (!result) {
         return (
@@ -43,7 +62,7 @@ export function LastSalesCard({ className }: { className?: string }) {
             >
                 {lastSales.length > 0 ? (
                     <>
-                        {lastSales.map(sale => (
+                        {lastSales.map((sale: LastSale) => (
                             <SaleItem
                                 key={sale.tradeId}
                                 sale={sale}

@@ -11,13 +11,10 @@ import { DashboardCard } from './DashboardCard'
 
 export function TotalSalesCard({ className }: { className?: string }) {
     const [selectedPeriod, setSelectedPeriod] = useLocalStorage<number>('selectedPeriod', 7)
-    const { selectedPersonaId } = usePersona()
+    const { selectedPersonaId: personaId } = usePersona()
 
     const { data: salesData } = useQuery({
-        ...convexQuery(api.trades.showSales, {
-            personaId: selectedPersonaId ?? 0,
-            period: selectedPeriod,
-        }),
+        ...convexQuery(api.trades.showSales, personaId ? { personaId, period: selectedPeriod } : "skip"),
         placeholderData: (previousData) => previousData,
     })
 
