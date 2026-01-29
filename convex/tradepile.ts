@@ -22,7 +22,7 @@ export const updateTradepile = mutation({
 
     const existingItems = await ctx.db
       .query("tradepile")
-      .filter((q) => q.eq(q.field("personaId"), args.items[0].personaId))
+      .withIndex("by_personaId", (q) => q.eq("personaId", args.items[0].personaId))
       .collect();
 
     for (const item of existingItems) {
@@ -51,7 +51,9 @@ export const getTradepile = query({
     personaId: v.number(),
   },
   handler: async (ctx, args) => {
-    let tradepile = await ctx.db.query("tradepile").filter((q) => q.eq(q.field("personaId"), args.personaId)).collect();
+    let tradepile = await ctx.db.query("tradepile")
+      .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
+      .collect();
     const tradepileItemsSold = tradepile.filter(t => t.tradeStatus === "closed").length;
     tradepile = tradepile.filter(t => t.tradeStatus !== "closed");
     const tradepileSum = tradepile.reduce((acc, t) => acc + t.buyPrice, 0);

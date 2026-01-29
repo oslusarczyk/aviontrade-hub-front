@@ -19,6 +19,11 @@ export function getRouter() {
       queries: {
         queryKeyHashFn: convexQueryClient.hashFn(),
         queryFn: convexQueryClient.queryFn(),
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 30,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: true,
       },
     },
   });

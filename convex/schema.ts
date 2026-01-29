@@ -13,7 +13,9 @@ export default defineSchema({
     buyPrice: v.number(),
     personaId: v.number(),
     tradeStatus: v.string(),
-  }).index("by_tradeId", ["tradeId"]),
+  }).index("by_tradeId", ["tradeId"])
+    .index("by_personaId", ["personaId"]),
+
 
   trades: defineTable({
     tradeId: v.number(),
