@@ -23,7 +23,7 @@ export function ClubSelector({ userId }: ClubSelectorProps) {
 
     if (!showClubSelector) {
         return selectedClub ? (
-            <div className="text-sm text-neutral-400">
+            <div className="text-lg text-neutral-400">
                 Club: {selectedClub.clubName}
             </div>
         ) : null

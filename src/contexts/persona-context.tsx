@@ -1,17 +1,19 @@
+// src/contexts/persona-context.tsx
 import { useLocalStorage } from '@/hooks/use-local-storage'
 import { createContext, useContext, ReactNode } from 'react'
 
 interface PersonaContextType {
-    selectedPersonaId: number | null
+    selectedPersonaId: number | undefined
     setSelectedPersonaId: (personaId: number) => void
 }
 
 const PersonaContext = createContext<PersonaContextType | undefined>(undefined)
 
-
-
 export function PersonaProvider({ children }: { children: ReactNode }) {
-    const [selectedPersonaId, setSelectedPersonaId] = useLocalStorage<number | null>('selectedPersonaId', null)
+    const [selectedPersonaId, setSelectedPersonaId] = useLocalStorage<number | undefined>(
+        'selectedPersonaId',
+        undefined
+    )
 
     return (
         <PersonaContext.Provider value={{ selectedPersonaId, setSelectedPersonaId }}>

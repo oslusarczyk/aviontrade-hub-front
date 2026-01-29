@@ -10,8 +10,26 @@ import { DashboardCard } from './DashboardCard'
 
 export function TradepileInfoCard({ className }: { className?: string }) {
     const { selectedPersonaId: personaId } = usePersona()
-    const tradepileData = useQuery(api.tradepile.getTradepile, { personaId: personaId ?? 0 })
-    const { tradepileCount = 0, tradepileItemsSold = 0, tradepileSum = 0, tradepileProfit = 0, lastUpdated = 0 } = tradepileData ?? {}
+    const tradepileData = useQuery(
+        api.tradepile.getTradepile,
+        personaId ? { personaId } : "skip"
+    )
+
+    if (!tradepileData) {
+        return (
+            <DashboardCard className={className}>
+                <CardHeader
+                    icon={Coins}
+                    title="Tradepile Info"
+                />
+                <div className="pt-4">
+                    <p className="text-sm text-neutral-400">No tradepile data available</p>
+                </div>
+            </DashboardCard>
+        )
+    }
+
+    const { tradepileCount, tradepileItemsSold, tradepileSum, tradepileProfit, lastUpdated } = tradepileData
     const profitColor = tradepileProfit > 0 ? 'text-emerald-400' : 'text-red-400'
     const profitBgColor = tradepileProfit > 0 ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-red-500/10 border-red-500/20'
     const potentialProfit = formatProfit(tradepileProfit)

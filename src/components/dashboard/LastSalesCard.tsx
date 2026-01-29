@@ -8,9 +8,25 @@ import { DashboardCard } from "./DashboardCard";
 
 export function LastSalesCard({ className }: { className?: string }) {
     const { selectedPersonaId: personaId } = usePersona();
-    const result = useQuery(api.trades.showLastSales, { personaId: personaId ?? 0 })
-    const creationTime = result?.creationTime ?? 0;
-    const lastSales = result?.lastSales ?? [];
+    console.log(personaId);
+    const result = useQuery(api.trades.showLastSales, personaId ? { personaId } : "skip");
+
+    if (!result) {
+        return (
+            <DashboardCard className={`flex flex-col h-full ${className}`}>
+                <CardHeader
+                    icon={ShoppingBag}
+                    title="Last Sales"
+                    description="No sales data available"
+                />
+                <div className="flex flex-col gap-2 mt-4 flex-1 min-h-0 overflow-y-auto pr-2 pb-1">
+                    <p className="text-sm text-neutral-400">No recent sales</p>
+                </div>
+            </DashboardCard>
+        );
+    }
+
+    const { creationTime, lastSales } = result;
 
     return (
         <DashboardCard className={`flex flex-col h-full ${className}`}>
@@ -25,7 +41,7 @@ export function LastSalesCard({ className }: { className?: string }) {
                     scrollbarColor: '#00bc7d #262626'
                 }}
             >
-                {lastSales && lastSales.length > 0 ? (
+                {lastSales.length > 0 ? (
                     <>
                         {lastSales.map(sale => (
                             <SaleItem

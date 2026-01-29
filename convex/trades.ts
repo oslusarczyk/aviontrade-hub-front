@@ -57,7 +57,8 @@ export const showLastSales = query({
     let trade = await ctx.db.query("trades")
       .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
       .order("desc")
-      .first(); const creationTime = trade?._creationTime ?? 0;
+      .first();
+    const creationTime = trade?._creationTime ?? 0;
     const trades = await ctx.db.query("trades")
       .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
       .filter((q) => q.gt(q.field("_creationTime"), creationTime - 1000))
