@@ -92,4 +92,49 @@ export const showLastSales = query({
 
     return { creationTime, lastSales };
   },
+
+
+});
+
+export const showProfitChart = query({
+  args: {
+    personaId: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const trades = await ctx.db.query("trades")
+      .withIndex("by_personaId", (q) => q.eq("personaId", args.personaId))
+      .collect();
+
+    const dailyData = new Map<string, { profit: number; sellCount: number }>();
+
+    for (const trade of trades) {
+      const date = new Date(trade._creationTime);
+      const dateKey = date.toISOString().split('T')[0];
+
+      const existing = dailyData.get(dateKey) || { profit: 0, sellCount: 0 };
+      dailyData.set(dateKey, {
+        profit: existing.profit + trade.profitMade,
+        sellCount: existing.sellCount + 1,
+      });
+    }
+
+
+    let profitWhole = 0;
+    let sellCountWhole = 0;
+    const profitChart = Array.from(dailyData.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([date, data]) => {
+        profitWhole += data.profit;
+        sellCountWhole += data.sellCount;
+        return {
+          date,
+          profitInDay: data.profit,
+          sellCountInDay: data.sellCount,
+          profitInTotal: profitWhole,
+          sellCountInTotal: sellCountWhole,
+        };
+      });
+
+    return profitChart;
+  },
 });

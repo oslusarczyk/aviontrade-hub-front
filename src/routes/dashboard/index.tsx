@@ -5,6 +5,7 @@ import { useSelectedPersona } from '@/hooks/use-selected-persona'
 import { TotalSalesCard } from '@/components/dashboard/TotalSalesCard'
 import { TradepileInfoCard } from '@/components/dashboard/TradepileInfoCard'
 import { LastSalesCard } from '@/components/dashboard/LastSalesCard'
+import { ChartCard } from '@/components/dashboard/ChartCard'
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardIndex,
@@ -33,6 +34,7 @@ function DashboardIndex() {
             <TotalSalesCard className="col-span-1 row-span-2 h-full" />
             <TradepileInfoCard className="col-span-1 row-span-2 h-full" />
             <LastSalesCard className="col-span-1 md:col-span-2 md:row-span-5 h-[500px] md:h-full" />
+            <ChartCard className="col-span-1 md:col-span-2 md:row-span-3 h-[500px] md:h-full" />
           </>
         ) : (
           <div className="col-span-4 row-span-5 h-full flex items-center justify-center">

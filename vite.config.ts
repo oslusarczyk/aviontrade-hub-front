@@ -15,6 +15,22 @@ const config = defineConfig({
       'use-sync-external-store/shim/index.js': 'react',
     },
   },
+  // Prevent runtime dependency discovery to avoid Windows rename issues
+  cacheDir: '.vite',
+  optimizeDeps: {
+    force: false,
+    noDiscovery: true,
+    include: [
+      '@clerk/tanstack-react-start',
+      '@clerk/clerk-react',
+      '@clerk/shared',
+      '@clerk/types',
+      'react',
+      'react-dom',
+      'recharts',
+    ],
+  },
+
   plugins: [
     devtools(),
     netlify(),
@@ -26,7 +42,7 @@ const config = defineConfig({
     tanstackStart(),
     viteReact(),
   ],
-  
+
 })
 
 export default config
