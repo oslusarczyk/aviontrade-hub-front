@@ -22,17 +22,17 @@ function DashboardIndex() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-4 mb-6 shrink-0">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+      <div className="flex items-center gap-4 mb-6 shrink-0 ml-12 lg:ml-0">
+        <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
         <ClubSelector userId={userId} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 grid-rows-5 flex-1 min-h-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-2 grid-rows-5 flex-1 min-h-0">
         {personaId ? (
           <>
             <TotalSalesCard className="col-span-1 row-span-2 h-full" />
             <TradepileInfoCard className="col-span-1 row-span-2 h-full" />
-            <LastSalesCard className="col-span-2 row-span-5 h-full" />
+            <LastSalesCard className="col-span-1 md:col-span-2 md:row-span-5 h-[500px] md:h-full" />
           </>
         ) : (
           <div className="col-span-4 row-span-5 h-full flex items-center justify-center">

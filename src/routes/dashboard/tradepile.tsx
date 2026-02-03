@@ -10,7 +10,7 @@ function TradepilePage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Tradepile</h1>
+      <h1 className="text-3xl font-bold mb-6 ml-12 lg:ml-0">Tradepile</h1>
       <p className="text-neutral-400">
         {selectedPersonaId
           ? `Viewing tradepile for Persona ID: ${selectedPersonaId}`

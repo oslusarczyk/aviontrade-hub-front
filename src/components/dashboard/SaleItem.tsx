@@ -25,17 +25,17 @@ export function SaleItem({ sale }: SaleItemProps) {
                     <h4 className="text-sm font-semibold text-neutral-200 truncate">
                         {player}
                     </h4>
-                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                    <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                         <span className="text-xs text-neutral-400">OVR</span>
-                        <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded border border-emerald-500/30">
+                        <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded border border-emerald-500/30 shrink-0">
                             {overall}
                         </span>
                         <span className="text-xs text-neutral-400">POS</span>
-                        <span className="px-1.5 py-0.5 bg-neutral-600/50 text-neutral-300 text-xs font-medium rounded border border-neutral-600/50">
+                        <span className="px-1.5 py-0.5 bg-neutral-600/50 text-neutral-300 text-xs font-medium rounded border border-neutral-600/50 shrink-0">
                             {position}
                         </span>
                         <span className="text-xs text-neutral-400">TEAM</span>
-                        <span className="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 text-xs font-medium rounded border border-blue-500/30">
+                        <span className="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 text-xs font-medium rounded border border-blue-500/30 shrink-0">
                             {cardType}
                         </span>
                     </div>

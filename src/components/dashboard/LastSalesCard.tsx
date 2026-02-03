@@ -21,7 +21,6 @@ type LastSale = {
 type LastSalesData = {
     creationTime: number;
     lastSales: LastSale[];
-    amountOfSales: number;
 };
 
 export function LastSalesCard({ className }: { className?: string }) {
@@ -33,7 +32,7 @@ export function LastSalesCard({ className }: { className?: string }) {
 
     if (!result) {
         return (
-            <DashboardCard className={`flex flex-col h-full ${className}`}>
+            <DashboardCard className={`flex flex-col ${className}`}>
                 <CardHeader
                     icon={ShoppingBag}
                     title="Last Sales"
@@ -49,7 +48,7 @@ export function LastSalesCard({ className }: { className?: string }) {
     const { creationTime, lastSales } = result;
 
     return (
-        <DashboardCard className={`flex flex-col h-full ${className}`}>
+        <DashboardCard className={`flex flex-col ${className}`}>
             <CardHeader
                 icon={ShoppingBag}
                 title="Last Sales"

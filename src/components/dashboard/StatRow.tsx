@@ -21,7 +21,7 @@ export function StatRow({
     iconClassName = 'text-neutral-500',
     labelClassName
 }: StatRowProps) {
-    const textSize = salesProp ? 'text-xs' : 'text-sm';
+    const textSize = salesProp ? 'text-xs lg:text-sm' : 'text-sm lg:text-base';
 
     return (
         <div className={`flex items-center justify-between ${containerClassName}`}>

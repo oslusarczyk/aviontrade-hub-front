@@ -26,12 +26,12 @@ export function TotalSalesCard({ className }: { className?: string }) {
 
     return (
         <DashboardCard className={className}>
-            <div className="absolute top-2 right-2 flex gap-2 z-10">
+            <div className="absolute top-1 xl:top-2 right-1 xl:right-2 flex gap-1 2xl:gap-2 z-10">
                 {[1, 7, 30, 365].map((days) => (
                     <button
                         key={days}
                         onClick={() => handlePeriodChange(days)}
-                        className={`flex items-center justify-center min-w-10 h-8 px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 cursor-pointer ${selectedPeriod === days
+                        className={`flex items-center justify-center min-w-10 h-6 lg:h-8  px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-200 cursor-pointer ${selectedPeriod === days
                             ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/20'
                             : 'bg-neutral-700/40 hover:bg-neutral-700/60 text-neutral-300 border border-neutral-600/30 hover:border-neutral-600/50'
                             }`}
@@ -55,7 +55,7 @@ export function TotalSalesCard({ className }: { className?: string }) {
                     <p className="text-xs text-neutral-400">Total profit</p>
                 </div>
 
-                <div className="space-y-3 pt-4 border-t border-neutral-700/50">
+                <div className="space-y-2 md:space-y-3 pt-4 border-t border-neutral-700/50">
                     <StatRow
                         icon={Package}
                         label="Cards sold in period"
