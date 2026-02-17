@@ -12,7 +12,6 @@ export function ClubSelector({ userId }: ClubSelectorProps) {
     const { clubs, selectedClub } = useSelectedPersona(userId)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
-    // Auto-select first club if none is selected
     useEffect(() => {
         if (clubs && clubs.length > 0 && !selectedPersonaId) {
             setSelectedPersonaId(clubs[0].personaId)

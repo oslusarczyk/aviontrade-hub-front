@@ -8,15 +8,16 @@ export function useSelectedPersona(userId: string) {
 
     if (clubs === undefined) {
         return {
-            personaId: null,
+            personaId: personaId ?? null,
             selectedClub: null,
             clubs: null,
         }
     }
     const selectedClub = clubs.find(club => club.personaId === personaId)
+    const validPersonaId = selectedClub ? personaId : null
 
     return {
-        personaId,
+        personaId: validPersonaId ?? null,
         selectedClub,
         clubs
     }

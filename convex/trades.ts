@@ -44,6 +44,9 @@ export const showSales = query({
       .filter((q) => q.gt(q.field("_creationTime"), cutoffTime))
       .collect();
     const amountSold = trades.length;
+    if (amountSold === 0) {
+      return { amountSold, totalSales: 0, profitAverage: 0, biggestSingleProfit: 0 };
+    }
     const totalSales = trades.reduce((acc, trade) => acc + trade.profitMade, 0);
     const profitAverage = Math.round(totalSales / amountSold);
     const biggestSingleProfit = Math.max(...trades.map(trade => trade.profitMade));
