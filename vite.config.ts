@@ -28,6 +28,7 @@ const config = defineConfig({
       'react',
       'react-dom',
       'recharts',
+      'lucide-react',
     ],
   },
 

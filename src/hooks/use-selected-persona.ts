@@ -1,24 +1,18 @@
-import { useQuery } from 'convex/react'
-import { api } from 'convex/_generated/api'
 import { usePersona } from '@/contexts/persona-context'
+import { useCachedClubs } from '@/hooks/use-cached-clubs'
 
 export function useSelectedPersona(userId: string) {
     const { selectedPersonaId: personaId } = usePersona()
-    const clubs = useQuery(api.clubs.getUserClubs, { userId })
+    const { clubs, isLoading } = useCachedClubs(userId)
 
-    if (clubs === undefined) {
-        return {
-            personaId: personaId ?? null,
-            selectedClub: null,
-            clubs: null,
-        }
-    }
-    const selectedClub = clubs.find(club => club.personaId === personaId)
+    // selectedClub is now available immediately from TanStack Query cache!
+    const selectedClub = clubs?.find(club => club.personaId === personaId) ?? null
     const validPersonaId = selectedClub ? personaId : null
 
     return {
         personaId: validPersonaId ?? null,
         selectedClub,
-        clubs
+        clubs: clubs ?? null,
+        isLoading
     }
 }

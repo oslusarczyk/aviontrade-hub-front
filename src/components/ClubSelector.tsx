@@ -9,7 +9,7 @@ interface ClubSelectorProps {
 
 export function ClubSelector({ userId }: ClubSelectorProps) {
     const { selectedPersonaId, setSelectedPersonaId } = usePersona()
-    const { clubs, selectedClub } = useSelectedPersona(userId)
+    const { clubs, selectedClub, isLoading } = useSelectedPersona(userId)
     const [isSelectOpen, setIsSelectOpen] = useState(false)
 
     useEffect(() => {
@@ -17,6 +17,10 @@ export function ClubSelector({ userId }: ClubSelectorProps) {
             setSelectedPersonaId(clubs[0].personaId)
         }
     }, [clubs, selectedPersonaId, setSelectedPersonaId])
+
+    if (isLoading) {
+        return <div className="text-neutral-400">Loading clubs...</div>
+    }
 
     const showClubSelector = clubs && clubs.length > 1
 
